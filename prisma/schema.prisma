@@ -1,0 +1,44 @@
+// "Склад"
+model Warehouse {
+  id    Int     @id @default(autoincrement())
+  uuid  String  @unique
+  title String
+  // Связь "многие-ко-многим" с сущностью "Товар"
+  products ProductOnWarehouse[]
+}
+
+// "Категория товара"
+model Category {
+  id    Int     @id @default(autoincrement())
+  slug  String  @unique
+  title String
+  // Связь "многие-ко-многим" с сущностью "Товар"
+  products Product[]
+}
+
+// "Товар"
+model Product {
+  id       Int      @id @default(autoincrement())
+  sku      String   @unique
+  title    String
+  categories Category[]
+}
+
+// для хранения информации о количестве товара на складе
+model ProductOnWarehouse {
+  id         Int       @id @default(autoincrement())
+  quantity   Int
+  // Ссылка на товар
+  product    Product   @relation(fields: [productId], references: [id])
+  productId  Int
+  // Ссылка на склад
+  warehouse  Warehouse @relation(fields: [warehouseId], references: [id])
+  warehouseId Int
+}
+
+
+
+
+
+
+
